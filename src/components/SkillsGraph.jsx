@@ -315,7 +315,7 @@ export function SkillsGraph() {
         <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-[#0a0f1e] to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#0a0f1e] to-transparent z-10" />
       </div>
-      <div style={{ height: 360 }} /> {/* spacer to compensate for -mt */}
+      <div style={{ height: 50 }} /> {/* spacer to compensate for -mt */}
       <div className="text-center mt-8 px-4 max-w-2xl mx-auto">
         <h3 className="text-lg text-slate-300 font-light leading-relaxed">
           I'm also into{" "}
