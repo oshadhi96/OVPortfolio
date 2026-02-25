@@ -35,7 +35,14 @@ const featuredProjects = [
     company: "IFS",
     headline:
       "Helped shape a new sustainability management solution that reached 6M EUR TCV and 1M EUR ARR within 11 months of release.",
-    tags: ["Enterprise UX", "Sustainability", "B2B", "SaaS", "Featured"],
+    tags: [
+      "Enterprise UX",
+      "Sustainability",
+      "Leadership",
+      "B2B",
+      "SaaS",
+      "Featured",
+    ],
     readTime: "Password Protected",
     image: sustainabilityImage,
     link: "/work/ifs-sustainability",
@@ -49,7 +56,7 @@ const featuredProjects = [
     company: "Rootcode",
     headline:
       "Connecting users with industry experts for 1-on-1 video consultations.",
-    tags: ["Consumer UX", "Marketplace", "Mobile", "Featured"],
+    tags: ["Consumer UX", "Marketplace", "Mobile", "Featured", "Leadership"],
     readTime: "Password Protected",
     image: expertrepublicimage,
     link: "/work/expert-republic",
@@ -62,7 +69,7 @@ const featuredProjects = [
       "Defining the future fitness experience for one of Sweden's largest B2B enterprise software solution providers 🇸🇪",
     company: "Rootcode",
     headline: "Modernizing legacy ERP software for fitness industry.",
-    tags: ["Enterprise UX", "B2B", "Systems", "Featured"],
+    tags: ["Enterprise UX", "B2B", "Systems", "Featured", "Leadership"],
     readTime: "Password Protected",
     image: swedishFitnessOverview,
     link: "/work/brp-systems",
@@ -105,7 +112,7 @@ const featuredProjects = [
     company: "All",
     headline:
       "The real bottleneck wasn’t process in design agencies nor big tech — it was shared decision-making.",
-    tags: ["Leadership", "Strategy", "Team Building", "Featured"],
+    tags: ["Leadership", "Strategy", "Team Building"],
     readTime: "Password Protected",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwxfHx8fDE3MzQ4MDk3MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -118,14 +125,13 @@ const featuredProjects = [
     title: "Illustrations (Inprogress)",
     company: "None",
     headline: "Exploring the craft and creativity",
-    tags: ["Fun Exploration Projects", "Featured"],
+    tags: ["Fun Exploration Projects"],
     readTime: "1 min read",
     image: illustrationsImage,
     link: "https://www.notion.so/vanodhya-oshadhi/Illustrations-Inprogress-4d668455716347db85ae026989fd981c",
     type: "featured",
   },
 ];
-
 const allProjects = [...featuredProjects];
 
 // Define specific filter tags
@@ -335,7 +341,6 @@ function ProjectCard({ project, index }) {
             >
               {project.company}
             </Badge>
-
             <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-950/60 backdrop-blur-md rounded-full border border-white/10 text-xs font-medium text-slate-300">
               {project.isLocked ? (
                 <Lock className="w-3 h-3" />
