@@ -19,21 +19,24 @@ export function ContactTeaser() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-serif font-light text-white mb-6 tracking-tight">
-            I'm <span className="italic text-violet-400">thrilled</span> that you are here
+            I'm <span className="italic text-violet-400">thrilled</span> that
+            you are here
           </h2>
-          
+
           <p className="text-lg sm:text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-            Whether you're a hiring manager looking for a designer, a founder building the next big thing, or a community organizer—I'd love to connect.
+            Whether you're a hiring manager looking for a designer, a founder
+            building the next big thing, or a community organizer—I'd love to
+            connect.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button 
+            <Button
               asChild
-              size="lg" 
+              size="lg"
               className="h-14 px-8 text-base bg-violet-600 hover:bg-violet-700 text-white rounded-full shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)] transition-all hover:scale-105 hover:shadow-[0_0_30px_-5px_rgba(124,58,237,0.6)] group"
             >
-              <a 
-                href="/contact"
+              <a
+                href="#/contact"
                 className="shiny-cta group focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
@@ -43,18 +46,16 @@ export function ContactTeaser() {
                 </span>
               </a>
             </Button>
-
-            
           </div>
         </motion.div>
 
         {/* Decorative Wave Line */}
-        <motion.div 
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-20 w-full h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0 }}
+          whileInView={{ opacity: 1, scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-20 w-full h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent"
         />
       </div>
     </section>

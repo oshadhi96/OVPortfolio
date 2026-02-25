@@ -6,16 +6,33 @@ import {
   AnimatePresence,
 } from "motion/react";
 
+// ─── INSTANT cursor hide injected BEFORE React hydrates ──────────────────────
+// Runs at module-eval time (synchronously) → zero flash on hard refresh.
+// SSR-safe: guarded with typeof document check.
+if (typeof document !== "undefined") {
+  const STYLE_ID = "__custom-cursor-hide__";
+  if (!document.getElementById(STYLE_ID)) {
+    const el = document.createElement("style");
+    el.id = STYLE_ID;
+    el.innerHTML = `
+      @media (pointer: fine) {
+        *, *::before, *::after { cursor: none !important; }
+        input, textarea, [contenteditable="true"] { cursor: text !important; }
+      }
+    `;
+    // Insert as first child of <head> to win the cascade immediately
+    document.head.insertBefore(el, document.head.firstChild);
+  }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export function CustomCursor() {
   // 1. Motion Values (Bypass React Render Cycle for Performance)
-  // Start off-screen to avoid flickers on load
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
   // 2. Physics Configuration
-  // Snappy spring for the main cursor arrow and the new small glow
   const springConfig = { damping: 25, stiffness: 400, mass: 0.2 };
-  // Floaty spring for the large background trail
   const trailConfig = { damping: 40, stiffness: 150, mass: 0.8 };
 
   // 3. Smooth Springs
@@ -24,77 +41,72 @@ export function CustomCursor() {
   const trailX = useSpring(cursorX, trailConfig);
   const trailY = useSpring(cursorY, trailConfig);
 
-  // 4. React State (Only for visual changes, not position)
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  // 4. Detect touch device synchronously on first render to avoid mismatch
+  const [isTouchDevice, setIsTouchDevice] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(pointer: coarse)").matches ||
+      window.innerWidth < 768
+    );
+  });
+
   const [cursorState, setCursorState] = useState({
     isPointer: false,
     isProjectCard: false,
     isWaveHello: false,
   });
 
-  // We need a ref to track if the initial mouse movement has happened
   const hasMoved = useRef(false);
 
+  // Re-check on resize (e.g. DevTools responsive toggle)
   useEffect(() => {
-    // Mobile Check
-    const checkTouch = () => {
+    const checkTouch = () =>
       setIsTouchDevice(
         "ontouchstart" in window ||
           navigator.maxTouchPoints > 0 ||
           window.matchMedia("(pointer: coarse)").matches ||
-          window.innerWidth < 768, // Explicit width check for "mobile view"
+          window.innerWidth < 768,
       );
-    };
-
-    checkTouch();
     window.addEventListener("resize", checkTouch);
+    return () => window.removeEventListener("resize", checkTouch);
+  }, []);
 
-    // Global Cursor Hide (Clean Injection)
-    if (!isTouchDevice) {
-      const style = document.createElement("style");
-      style.innerHTML = `
-        body, a, button, [role="button"] { cursor: none !important; }
-        input, textarea, [contenteditable="true"] { cursor: text !important; }
+  // If device becomes touch, blank out the hide-cursor style so native cursor returns
+  useEffect(() => {
+    const styleEl = document.getElementById("__custom-cursor-hide__");
+    if (!styleEl) return;
+    styleEl.innerHTML = isTouchDevice
+      ? ""
+      : `
+        @media (pointer: fine) {
+          *, *::before, *::after { cursor: none !important; }
+          input, textarea, [contenteditable="true"] { cursor: text !important; }
+        }
       `;
-      document.head.appendChild(style);
-
-      return () => {
-        document.head.removeChild(style);
-        window.removeEventListener("resize", checkTouch);
-      };
-    }
-
-    // Cleanup for resize listener when isTouchDevice is true
-    return () => {
-      window.removeEventListener("resize", checkTouch);
-    };
   }, [isTouchDevice]);
 
   useEffect(() => {
     if (isTouchDevice) return;
 
     const moveCursor = (e) => {
-      // On first move, snap the cursor to position instead of springing from (-100,-100)
       if (!hasMoved.current) {
-        // Some motion libraries don't have jump(), so fallback safely
-        if (typeof cursorX.jump === "function") cursorX.jump(e.clientX);
-        else cursorX.set(e.clientX);
-
-        if (typeof cursorY.jump === "function") cursorY.jump(e.clientY);
-        else cursorY.set(e.clientY);
-
+        // Snap to position on first move to avoid spring animation from off-screen
+        if (typeof cursorX.jump === "function") {
+          cursorX.jump(e.clientX);
+          cursorY.jump(e.clientY);
+        } else {
+          cursorX.set(e.clientX);
+          cursorY.set(e.clientY);
+        }
         hasMoved.current = true;
       } else {
-        // Update MotionValues directly (No React Re-render!)
         cursorX.set(e.clientX);
         cursorY.set(e.clientY);
       }
 
-      // Check Hover Targets
-      const target = e.target;
-
-      // Be defensive: target might not be an Element in rare cases
-      const el = target instanceof Element ? target : null;
+      const el = e.target instanceof Element ? e.target : null;
 
       const isPointer =
         !!el &&
@@ -107,11 +119,7 @@ export function CustomCursor() {
         !!el && !!el.closest("[data-project-card], .project-card");
       const isWaveHello = !!el && !!el.closest("[data-wave-hello]");
 
-      setCursorState({
-        isPointer,
-        isProjectCard,
-        isWaveHello,
-      });
+      setCursorState({ isPointer, isProjectCard, isWaveHello });
     };
 
     window.addEventListener("mousemove", moveCursor);
@@ -122,18 +130,14 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* --- Main Cursor (Arrow/Hand) --- */}
+      {/* ── Main Cursor (Arrow / Hand Pointer) ── */}
       <motion.div
-        // z-index 9999 to be on top of everything
         className="fixed top-0 left-0 pointer-events-none z-[9999] will-change-transform"
-        style={{
-          x: smoothX,
-          y: smoothY,
-        }}
+        style={{ x: smoothX, y: smoothY }}
       >
         <AnimatePresence mode="wait">
           {cursorState.isWaveHello ? (
-            /* 👋 Waving Hand State */
+            /* 👋 Waving Hand */
             <motion.div
               key="wave"
               initial={{ scale: 0, opacity: 0 }}
@@ -155,7 +159,7 @@ export function CustomCursor() {
               </motion.div>
             </motion.div>
           ) : (
-            /* 🖱️ Default Figma Arrow / Hand Pointer State */
+            /* Arrow / Hand pointer */
             <motion.div key="cursor" className="relative z-20">
               <motion.svg
                 width="24"
@@ -164,13 +168,11 @@ export function CustomCursor() {
                 fill="none"
                 className="relative z-20 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
                 initial={{ scale: 0.9 }}
-                animate={{
-                  scale: cursorState.isPointer ? 1.1 : 0.9,
-                }}
+                animate={{ scale: cursorState.isPointer ? 1.1 : 0.9 }}
                 transition={{ duration: 0.15 }}
               >
                 {cursorState.isPointer ? (
-                  /* ☝️ Hand Pointer Icon */
+                  /* ☝️ Hand pointer icon */
                   <>
                     <path
                       d="M9 11V5a2 2 0 0 1 4 0v3.586l1.121-1.121A1.5 1.5 0 0 1 16.5 9v0a1.5 1.5 0 0 1 1.5 1.5v1A6 6 0 0 1 12 18H9.5A4.5 4.5 0 0 1 5 13.5V12a1 1 0 0 1 1-1h3Z"
@@ -190,7 +192,7 @@ export function CustomCursor() {
                     />
                   </>
                 ) : (
-                  /* 🖱️ Arrow Icon */
+                  /* 🖱️ Arrow icon */
                   <>
                     <path
                       d="M5.5 3.21V20.79L10.92 15.37L14.12 21.29L15.88 20.42L12.68 14.5L19.5 13.79L5.5 3.21Z"
@@ -226,7 +228,7 @@ export function CustomCursor() {
                 {cursorState.isProjectCard
                   ? "View Project"
                   : cursorState.isPointer
-                    ? "Click to View "
+                    ? "Click to View"
                     : "You"}
               </motion.div>
             </motion.div>
@@ -234,24 +236,24 @@ export function CustomCursor() {
         </AnimatePresence>
       </motion.div>
 
-      {/* --- NEW: Small "Halo" Glow attached to cursor --- */}
+      {/* ── Small Halo Glow ── */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9998] w-24 h-24 -ml-8 -mt-8 rounded-full blur-2xl will-change-transform"
         style={{
           x: smoothX,
           y: smoothY,
-          background: "rgba(96, 75, 159, 0.5)", // Light purple, semi-transparent
+          background: "rgba(96, 75, 159, 0.5)",
         }}
       />
 
-      {/* --- Existing: Large Ambient Background Trail --- */}
+      {/* ── Large Ambient Background Trail ── */}
       <motion.div
         className="fixed top-0 left-0 pointer-events-none z-[9990] w-96 h-96 -ml-48 -mt-48 will-change-transform"
         style={{
           x: trailX,
           y: trailY,
           filter: "blur(60px)",
-          opacity: 0.7, // Lower opacity so it doesn't dominate
+          opacity: 0.7,
         }}
         animate={{
           background: cursorState.isProjectCard

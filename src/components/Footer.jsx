@@ -180,6 +180,13 @@ export const Footer = memo(() => {
             &copy; {CURRENT_YEAR} Oshadhi Vanodhya. Built with ♥️ by Oshi
           </p>
           <div className="flex flex-wrap justify-center gap-6">
+            <span
+              className="flex items-center gap-1.5 text-[rgb(156,168,186)] text-[13px]"
+              title="Web Content Accessibility Guidelines 2.1 AA Compliant"
+            >
+              <span className="h-2 w-2 rounded-full bg-yellow-500/80 text-[rgb(186,179,156)]"></span>
+              WCAG 2.1 AA Accessible
+            </span>
             <a
               href="#"
               className="hover:text-violet-400 transition-colors text-[rgb(156,169,186)]"

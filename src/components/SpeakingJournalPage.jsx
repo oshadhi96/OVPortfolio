@@ -76,7 +76,7 @@ const contentData = [
     summary:
       "Exploring new paradigme in interaction design as we move from command-based interfaces to intent-based systems.",
     image: maximizingRoiImage,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-a7e738a3649c4869b3a847f9e9f7ac34#9a699872d14342eda43674345ac4805b",
+    link: "https://www.linkedin.com/posts/oshadhi-vanodhya_ecommerce-recruitment-ai-activity-7248658550460145664-Kl2R/?utm_source=share&utm_medium=member_desktop&rcm=ACoAABrk3dsBuajxKqlKkKcoMsgKfARhYCQboaU",
   },
   {
     id: "5",
@@ -381,7 +381,7 @@ export function SpeakingJournalPage() {
           </div>
 
           <a
-            href="/contact"
+            href="#/contact"
             className="shiny-cta inline-flex items-center gap-2 group"
           >
             <span>Invite me to Speak</span>
