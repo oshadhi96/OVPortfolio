@@ -428,6 +428,7 @@
     color-scheme: light;
     background-color: #0000;
     border-radius: 0;
+    cursor: pointer;
   }
 
   :where(select:is([multiple], [size])) optgroup {

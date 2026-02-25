@@ -155,35 +155,59 @@ export function CustomCursor() {
               </motion.div>
             </motion.div>
           ) : (
-            /* 🖱️ Default Figma Arrow State */
+            /* 🖱️ Default Figma Arrow / Hand Pointer State */
             <motion.div key="cursor" className="relative z-20">
               <motion.svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
-                // Added drop-shadow to the SVG itself for better definition against backgrounds
                 className="relative z-20 drop-shadow-[0_1px_2px_rgba(0,0,0,0.2)]"
                 initial={{ scale: 0.9 }}
                 animate={{
-                  scale: cursorState.isPointer ? 1 : 0.9,
+                  scale: cursorState.isPointer ? 1.1 : 0.9,
                 }}
+                transition={{ duration: 0.15 }}
               >
-                <path
-                  d="M5.5 3.21V20.79L10.92 15.37L14.12 21.29L15.88 20.42L12.68 14.5L19.5 13.79L5.5 3.21Z"
-                  fill="#1e1b4b" // Dark Navy background fill
-                  stroke="white" // White outline for pop
-                  strokeWidth="1.5"
-                />
-                {/* The colored fill that animates */}
-                <motion.path
-                  d="M5.5 3.21V20.79L10.92 15.37L14.12 21.29L15.88 20.42L12.68 14.5L19.5 13.79L5.5 3.21Z"
-                  animate={{
-                    fill: cursorState.isProjectCard ? "#ec4899" : "#8b5cf6", // Pink or Purple fill
-                  }}
-                  transition={{ duration: 0.2 }}
-                  className="mix-blend-multiply" // Blends nicely with the dark navy behind it
-                />
+                {cursorState.isPointer ? (
+                  /* ☝️ Hand Pointer Icon */
+                  <>
+                    <path
+                      d="M9 11V5a2 2 0 0 1 4 0v3.586l1.121-1.121A1.5 1.5 0 0 1 16.5 9v0a1.5 1.5 0 0 1 1.5 1.5v1A6 6 0 0 1 12 18H9.5A4.5 4.5 0 0 1 5 13.5V12a1 1 0 0 1 1-1h3Z"
+                      fill="#1e1b4b"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <motion.path
+                      d="M9 11V5a2 2 0 0 1 4 0v3.586l1.121-1.121A1.5 1.5 0 0 1 16.5 9v0a1.5 1.5 0 0 1 1.5 1.5v1A6 6 0 0 1 12 18H9.5A4.5 4.5 0 0 1 5 13.5V12a1 1 0 0 1 1-1h3Z"
+                      animate={{
+                        fill: cursorState.isProjectCard ? "#ec4899" : "#8b5cf6",
+                      }}
+                      transition={{ duration: 0.2 }}
+                      className="mix-blend-multiply"
+                      strokeLinejoin="round"
+                    />
+                  </>
+                ) : (
+                  /* 🖱️ Arrow Icon */
+                  <>
+                    <path
+                      d="M5.5 3.21V20.79L10.92 15.37L14.12 21.29L15.88 20.42L12.68 14.5L19.5 13.79L5.5 3.21Z"
+                      fill="#1e1b4b"
+                      stroke="white"
+                      strokeWidth="1.5"
+                    />
+                    <motion.path
+                      d="M5.5 3.21V20.79L10.92 15.37L14.12 21.29L15.88 20.42L12.68 14.5L19.5 13.79L5.5 3.21Z"
+                      animate={{
+                        fill: cursorState.isProjectCard ? "#ec4899" : "#8b5cf6",
+                      }}
+                      transition={{ duration: 0.2 }}
+                      className="mix-blend-multiply"
+                    />
+                  </>
+                )}
               </motion.svg>
 
               {/* Name Tag Pill */}
@@ -196,13 +220,13 @@ export function CustomCursor() {
                   backgroundColor: cursorState.isProjectCard
                     ? "#ec4899"
                     : "#8b5cf6",
-                  scale: cursorState.isPointer ? 1.05 : 1,
+                  scale: cursorState.isPointer ? 1.1 : 1,
                 }}
               >
                 {cursorState.isProjectCard
                   ? "View Project"
                   : cursorState.isPointer
-                    ? "Click to View"
+                    ? "Click to View "
                     : "You"}
               </motion.div>
             </motion.div>
