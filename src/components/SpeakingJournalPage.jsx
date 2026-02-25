@@ -193,7 +193,7 @@ const contentData = [
     summary:
       "Helped to formulate the judging criteria by collaborating with other design sprint judges",
     image: designSprintJudgeImage,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#5d419a5e3858495da3e3a507f6f322d2",
+    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#c42a1f798af44b82acdc054e80f70733",
   },
   {
     id: "15",
@@ -205,7 +205,7 @@ const contentData = [
     summary:
       "Coached & evangelized on UX by presenting to 300+ employees which persuaded to hire more UX designers in BA groups",
     image: uxCoachingImage,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#b6cab08c518f413d95b1593598f6661f",
+    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#2c57a3b943c1401ba6d086dc4c9e7c07",
   },
   {
     id: "16",
