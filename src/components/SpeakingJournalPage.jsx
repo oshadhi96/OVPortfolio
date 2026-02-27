@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Link } from "react-router-dom";
 import {
   Mic,
   BookOpen,
@@ -381,13 +380,13 @@ export function SpeakingJournalPage() {
             </div>
           </div>
 
-          <Link
-            to="/contact"
+          <a
+            href="/contact"
             className="shiny-cta inline-flex items-center gap-2 group"
           >
             <span>Invite me to Speak</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </a>
         </motion.div>
       </section>
 
