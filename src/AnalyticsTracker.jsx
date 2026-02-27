@@ -4,7 +4,7 @@ import ReactGA from "react-ga4";
 
 const MEASUREMENT_ID = "G-RY83HXZMZB";
 
-// Initialize once
+// Initialize GA4 once at module level
 if (!window.GA_INITIALIZED) {
   ReactGA.initialize(MEASUREMENT_ID);
   window.GA_INITIALIZED = true;
@@ -19,6 +19,7 @@ export function AnalyticsTracker() {
     ReactGA.send({
       hitType: "pageview",
       page,
+      title: document.title,
     });
   }, [location]);
 
