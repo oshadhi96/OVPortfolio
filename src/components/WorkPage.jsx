@@ -13,7 +13,6 @@ import illustrationsImage from "figma:asset/ec123535667fb7c7348e05688cbc273c4bbe
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 
-// ✅ FIX: removed stray comma in your array + removed TS
 const featuredProjects = [
   {
     id: 1,
@@ -145,7 +144,6 @@ const filterTags = [
 ];
 
 export function WorkPage() {
-  // ✅ FIX: no TS generic in useState
   const [selectedTag, setSelectedTag] = useState("Featured");
 
   // Filter logic
@@ -163,7 +161,7 @@ export function WorkPage() {
   const { featured: filteredFeatured } = getFilteredProjects();
 
   return (
-    <div className="min-h-screen py-24 relative overflow-hidden">
+    <div className="min-h-screen pt-[178px] pb-24 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute left-0 top-0 w-[600px] h-[600px] bg-violet-900/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute right-0 bottom-0 w-[600px] h-[600px] bg-violet-900/10 blur-[120px] rounded-full pointer-events-none" />
@@ -175,7 +173,7 @@ export function WorkPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <h1 className="text-4xl md:text-6xl font-serif italic text-white mb-6 mt-8">
+          <h1 className="text-4xl md:text-6xl font-serif italic text-white mb-6 mt-2">
             Projects
           </h1>
           <p className="text-slate-400 text-lg max-w-3xl">

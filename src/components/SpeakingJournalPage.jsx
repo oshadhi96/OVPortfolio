@@ -285,7 +285,7 @@ export function SpeakingJournalPage() {
   return (
     <div className="min-h-screen bg-[#020617] text-slate-300 font-sans selection:bg-teal-500/30">
       {/* Hero */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 container mx-auto max-w-8xl">
+      <section className="pt-[178px] pb-20 px-4 sm:px-6 lg:px-8 container mx-auto max-w-8xl">
         <style>{`
           @property --gradient-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
           @property --gradient-angle-offset { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
