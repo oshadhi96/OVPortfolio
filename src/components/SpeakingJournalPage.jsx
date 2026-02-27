@@ -381,7 +381,7 @@ export function SpeakingJournalPage() {
           </div>
 
           <a
-            href="#/contact"
+            href="/contact"
             className="shiny-cta inline-flex items-center gap-2 group"
           >
             <span>Invite me to Speak</span>

@@ -132,7 +132,7 @@ export function ResourcesPage() {
                 className="bg-violet-600 hover:bg-violet-700 text-white rounded-full px-8"
                 asChild
               >
-                <a href="#/contact">
+                <a href="/contact">
                   Request Mentorship
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </a>

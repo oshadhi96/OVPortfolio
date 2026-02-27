@@ -36,7 +36,7 @@ export function ContactTeaser() {
               className="h-14 px-8 text-base bg-violet-600 hover:bg-violet-700 text-white rounded-full shadow-[0_0_20px_-5px_rgba(124,58,237,0.5)] transition-all hover:scale-105 hover:shadow-[0_0_30px_-5px_rgba(124,58,237,0.6)] group"
             >
               <a
-                href="#/contact"
+                href="/contact"
                 className="shiny-cta group focus:outline-none focus-visible:ring-4 focus-visible:ring-violet-500"
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
