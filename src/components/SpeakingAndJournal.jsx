@@ -100,11 +100,17 @@ export function SpeakingAndJournal() {
                     ? "https://www.linkedin.com/posts/oshadhi-vanodhya_melbourne-ecommerce-recruitment-activity-7248658550460145664-9I58?utm_source=share&utm_medium=member_desktop&rcm=ACoAABrk3dsBuajxKqlKkKcoMsgKfARhYCQboaU"
                     : item.id === 2
                       ? "https://www.linkedin.com/posts/oshadhi-vanodhya_ifs-uxmaturity-ux-activity-7119167151189463040-AM1H?utm_source=share&utm_medium=member_desktop&rcm=ACoAABrk3dsBuajxKqlKkKcoMsgKfARhYCQboaU"
-                      : "#"
+                      : item.id === 3
+                        ? "https://vanodhya-oshadhi.notion.site/Design-Events-a7e738a3649c4869b3a847f9e9f7ac34?pvs=97#65ed6fce3e8f442ea4f42c3b37adaf96"
+                        : "#"
                 }
-                target={item.id === 1 || item.id === 2 ? "_blank" : undefined}
+                target={
+                  item.id === 1 || item.id === 2 || item.id === 3
+                    ? "_blank"
+                    : undefined
+                }
                 rel={
-                  item.id === 1 || item.id === 2
+                  item.id === 1 || item.id === 2 || item.id === 3
                     ? "noopener noreferrer"
                     : undefined
                 }

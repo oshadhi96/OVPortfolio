@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { AnalyticsTracker } from "./AnalyticsTracker";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -41,6 +42,7 @@ export default function App() {
 
   return (
     <AuthProvider>
+      <AnalyticsTracker />
       {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
       <ScrollToTop />
       <CustomCursor />
