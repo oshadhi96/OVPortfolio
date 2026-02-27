@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordModal } from "./PasswordModal";
 import { useAuth } from "../contexts/AuthContext";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useTrackSectionView, trackWorkCardClick } from "./AnalyticsTracker";
+import { useTrackSectionView, trackWorkCardClick } from "../AnalyticsTracker";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
