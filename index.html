@@ -10,6 +10,22 @@
     />
     <meta name="robots" content="noindex, nofollow" />
     <title>Oshi Vanodhya</title>
+
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      (function () {
+        const redirect = sessionStorage.getItem("redirect");
+        if (redirect && redirect !== location.href) {
+          sessionStorage.removeItem("redirect");
+          const url = new URL(redirect);
+          window.history.replaceState(
+            null,
+            null,
+            url.pathname + url.search + url.hash,
+          );
+        }
+      })();
+    </script>
   </head>
 
   <body>
