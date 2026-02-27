@@ -55,10 +55,22 @@ function useTrackSectionView(eventName) {
   return ref;
 }
 
+function isExternalLink(url) {
+  return url && (url.startsWith("http://") || url.startsWith("https://"));
+}
+
 function trackCardClick(cardTitle, cardUrl) {
   sendGA4Event("selected_work_card_clicked", {
     card_title: cardTitle,
     card_url: cardUrl,
+    page_path: window.location.pathname,
+  });
+}
+
+function trackExternalLinkClick(cardTitle, cardUrl) {
+  sendGA4Event("external_link_clicked", {
+    card_title: cardTitle,
+    external_url: cardUrl,
     page_path: window.location.pathname,
   });
 }
@@ -437,7 +449,6 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
           {project.isLocked ? (
             <button
               onClick={(e) => {
-                // 👆 Track which card was clicked
                 trackCardClick(project.title, project.link);
 
                 const ifsAiPath = project.link.includes("ifs-ai")
@@ -462,7 +473,24 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
               className="absolute inset-0 z-30 rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 cursor-pointer hover:bg-violet-500/5 hover:ring-1 hover:ring-violet-500/30 transition-all duration-300"
               aria-label={`Unlock ${project.title}`}
             />
+          ) : isExternalLink(project.link) ? (
+            // 🌐 External link (e.g. Notion) — opens in new tab + tracks separately
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                trackCardClick(project.title, project.link);
+                trackExternalLinkClick(project.title, project.link);
+              }}
+              className="absolute inset-0 z-30 rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+            >
+              <span className="sr-only">
+                View case study for {project.title}
+              </span>
+            </a>
           ) : (
+            // 🔗 Internal link
             <Link
               to={project.link}
               onClick={() => trackCardClick(project.title, project.link)}
