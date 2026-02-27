@@ -13,6 +13,35 @@ import illustrationsImage from "figma:asset/ec123535667fb7c7348e05688cbc273c4bbe
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 
+// ─── GA4 Helpers ─────────────────────────────────────────────────────────────
+
+function sendGA4Event(eventName, params = {}) {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", eventName, params);
+    console.log("✅ GA4 event fired:", eventName, params);
+  } else {
+    console.warn("⚠️ gtag not available:", eventName);
+  }
+}
+
+function trackCardClick(cardTitle, cardUrl) {
+  sendGA4Event("work_page_card_clicked", {
+    card_title: cardTitle,
+    card_url: cardUrl,
+    page_path: window.location.pathname,
+  });
+}
+
+function trackExternalLinkClick(cardTitle, cardUrl) {
+  sendGA4Event("external_link_clicked", {
+    card_title: cardTitle,
+    external_url: cardUrl,
+    page_path: window.location.pathname,
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const featuredProjects = [
   {
     id: 1,
@@ -391,10 +420,15 @@ function ProjectCard({ project, index }) {
         {/* Full Card Link (Accessible) */}
         {hasLink &&
           (isExternalLink ? (
+            // 🌐 External Notion links — track both events
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => {
+                trackCardClick(project.title, project.link);
+                trackExternalLinkClick(project.title, project.link);
+              }}
               className="absolute inset-0 z-30 focus:outline-none"
             >
               <span className="sr-only">
@@ -402,8 +436,11 @@ function ProjectCard({ project, index }) {
               </span>
             </a>
           ) : project.isLocked ? (
+            // 🔒 Locked internal cards
             <button
               onClick={(e) => {
+                trackCardClick(project.title, project.link);
+
                 const ifsAiPath = project.link.includes("ifs-ai")
                   ? "/work/ifs-ai-guest-overview"
                   : null;
@@ -427,8 +464,10 @@ function ProjectCard({ project, index }) {
               aria-label={`Unlock ${project.title}`}
             />
           ) : (
+            // 🔗 Unlocked internal cards
             <Link
               to={project.link}
+              onClick={() => trackCardClick(project.title, project.link)}
               className="absolute inset-0 z-30 focus:outline-none"
             >
               <span className="sr-only">
