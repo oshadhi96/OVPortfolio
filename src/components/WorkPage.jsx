@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordModal } from "./PasswordModal";
 import { useAuth } from "../contexts/AuthContext";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import ReactGA from "react-ga4";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import bleepmedImage from "figma:asset/954412963dcb21eca65211548514dd170a77a564.png";
 import dashboardImage from "figma:asset/9d47c43c7096aca688d62cf6b64b35d845463cc2.png";
@@ -15,28 +16,27 @@ import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff
 
 // ─── GA4 Helpers ─────────────────────────────────────────────────────────────
 
-function sendGA4Event(eventName, params = {}) {
-  if (typeof window !== "undefined" && typeof window.gtag === "function") {
-    window.gtag("event", eventName, params);
-    console.log("✅ GA4 event fired:", eventName, params);
-  } else {
-    console.warn("⚠️ gtag not available:", eventName);
-  }
-}
-
 function trackCardClick(cardTitle, cardUrl) {
-  sendGA4Event("work_page_card_clicked", {
+  ReactGA.event("work_page_card_clicked", {
     card_title: cardTitle,
     card_url: cardUrl,
     page_path: window.location.pathname,
   });
+  console.log("✅ GA4 event fired: work_page_card_clicked", {
+    cardTitle,
+    cardUrl,
+  });
 }
 
 function trackExternalLinkClick(cardTitle, cardUrl) {
-  sendGA4Event("external_link_clicked", {
+  ReactGA.event("external_link_clicked", {
     card_title: cardTitle,
     external_url: cardUrl,
     page_path: window.location.pathname,
+  });
+  console.log("✅ GA4 event fired: external_link_clicked", {
+    cardTitle,
+    cardUrl,
   });
 }
 

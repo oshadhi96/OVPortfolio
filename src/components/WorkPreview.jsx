@@ -13,20 +13,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordModal } from "./PasswordModal";
 import { useAuth } from "../contexts/AuthContext";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import ReactGA from "react-ga4";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 
-// ─── GA4 Helpers (self-contained) ─────────────────────────────────────────────
-
-function sendGA4Event(eventName, params = {}) {
-  if (typeof window !== "undefined" && typeof window.gtag === "function") {
-    window.gtag("event", eventName, params);
-    console.log("✅ GA4 event fired:", eventName, params);
-  } else {
-    console.warn("⚠️ gtag not available, event not sent:", eventName);
-  }
-}
+// ─── GA4 Helpers ──────────────────────────────────────────────────────────────
 
 // Fires once when 30% of the element scrolls into view
 function useTrackSectionView(eventName) {
@@ -41,7 +33,8 @@ function useTrackSectionView(eventName) {
       ([entry]) => {
         if (entry.isIntersecting && !fired.current) {
           fired.current = true;
-          sendGA4Event(eventName, { page_path: window.location.pathname });
+          ReactGA.event(eventName, { page_path: window.location.pathname });
+          console.log("✅ GA4 event fired:", eventName);
           observer.disconnect();
         }
       },
@@ -60,18 +53,26 @@ function isExternalLink(url) {
 }
 
 function trackCardClick(cardTitle, cardUrl) {
-  sendGA4Event("selected_work_card_clicked", {
+  ReactGA.event("selected_work_card_clicked", {
     card_title: cardTitle,
     card_url: cardUrl,
     page_path: window.location.pathname,
   });
+  console.log("✅ GA4 event fired: selected_work_card_clicked", {
+    cardTitle,
+    cardUrl,
+  });
 }
 
 function trackExternalLinkClick(cardTitle, cardUrl) {
-  sendGA4Event("external_link_clicked", {
+  ReactGA.event("external_link_clicked", {
     card_title: cardTitle,
     external_url: cardUrl,
     page_path: window.location.pathname,
+  });
+  console.log("✅ GA4 event fired: external_link_clicked", {
+    cardTitle,
+    cardUrl,
   });
 }
 
