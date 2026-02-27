@@ -16,28 +16,37 @@ import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff
 
 // ─── GA4 Helpers ─────────────────────────────────────────────────────────────
 
+// Converts card title to a clean GA4-safe event name slug
+// e.g. "IFS.ai Developer Portal" → "click_IFS_ai_Developer_Portal"
+function toEventSlug(title) {
+  return (
+    "click_" +
+    title
+      .replace(/[^a-zA-Z0-9 ]/g, "") // remove special chars
+      .trim()
+      .replace(/\s+/g, "_") // spaces to underscores
+      .slice(0, 35) // GA4 event name max 40 chars
+  );
+}
+
 function trackCardClick(cardTitle, cardUrl) {
-  ReactGA.event("work_page_card_clicked", {
-    card_title: cardTitle,
+  const eventName = toEventSlug(cardTitle);
+  ReactGA.event(eventName, {
     card_url: cardUrl,
     page_path: window.location.pathname,
+    source: "work_page",
   });
-  console.log("✅ GA4 event fired: work_page_card_clicked", {
-    cardTitle,
-    cardUrl,
-  });
+  console.log("✅ GA4 event fired:", eventName, { cardUrl });
 }
 
 function trackExternalLinkClick(cardTitle, cardUrl) {
-  ReactGA.event("external_link_clicked", {
-    card_title: cardTitle,
+  const eventName = toEventSlug(cardTitle) + "_external";
+  ReactGA.event(eventName, {
     external_url: cardUrl,
     page_path: window.location.pathname,
+    source: "work_page",
   });
-  console.log("✅ GA4 event fired: external_link_clicked", {
-    cardTitle,
-    cardUrl,
-  });
+  console.log("✅ GA4 event fired:", eventName, { cardUrl });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

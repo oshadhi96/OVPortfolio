@@ -52,28 +52,37 @@ function isExternalLink(url) {
   return url && (url.startsWith("http://") || url.startsWith("https://"));
 }
 
+// Converts card title to a clean GA4-safe event name slug
+// e.g. "IFS.ai Developer Portal" → "click_IFS_ai_Developer_Portal"
+function toEventSlug(title) {
+  return (
+    "click_" +
+    title
+      .replace(/[^a-zA-Z0-9 ]/g, "")
+      .trim()
+      .replace(/\s+/g, "_")
+      .slice(0, 35)
+  );
+}
+
 function trackCardClick(cardTitle, cardUrl) {
-  ReactGA.event("selected_work_card_clicked", {
-    card_title: cardTitle,
+  const eventName = toEventSlug(cardTitle);
+  ReactGA.event(eventName, {
     card_url: cardUrl,
     page_path: window.location.pathname,
+    source: "home_page",
   });
-  console.log("✅ GA4 event fired: selected_work_card_clicked", {
-    cardTitle,
-    cardUrl,
-  });
+  console.log("✅ GA4 event fired:", eventName, { cardUrl });
 }
 
 function trackExternalLinkClick(cardTitle, cardUrl) {
-  ReactGA.event("external_link_clicked", {
-    card_title: cardTitle,
+  const eventName = toEventSlug(cardTitle) + "_external";
+  ReactGA.event(eventName, {
     external_url: cardUrl,
     page_path: window.location.pathname,
+    source: "home_page",
   });
-  console.log("✅ GA4 event fired: external_link_clicked", {
-    cardTitle,
-    cardUrl,
-  });
+  console.log("✅ GA4 event fired:", eventName, { cardUrl });
 }
 
 // ─── Theme configuration ──────────────────────────────────────────────────────
