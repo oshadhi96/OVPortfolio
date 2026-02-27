@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Mic,
@@ -226,7 +227,7 @@ const contentData = [
     eventOrPlatform: "Design Code 2022",
     date: "Dec 2022",
     summary:
-      "Guest lecture session on “Why UX Design Matters” at ‘Design Code 2022’ for 100+ students",
+      "Guest lecture session on \u201cWhy UX Design Matters\u201d at 'Design Code 2022' for 100+ students",
     image: designCode2022Image,
     link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#5d419a5e3858495da3e3a507f6f322d2",
   },
@@ -238,6 +239,7 @@ export function SpeakingJournalPage() {
   const [selectedTopic, setSelectedTopic] = useState("All");
   const [selectedFormat, setSelectedFormat] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
 
   const topics = [
     "All",
@@ -249,7 +251,6 @@ export function SpeakingJournalPage() {
   ];
   const formats = ["All", "Talk", "Panel", "Workshop", "Article"];
 
-  // Reset pagination when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [selectedTopic, selectedFormat]);
@@ -380,13 +381,13 @@ export function SpeakingJournalPage() {
             </div>
           </div>
 
-          <a
-            href="/contact"
+          <button
+            onClick={() => navigate("/contact")}
             className="shiny-cta inline-flex items-center gap-2 group"
           >
             <span>Invite me to Speak</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </button>
         </motion.div>
       </section>
 
