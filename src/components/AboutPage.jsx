@@ -23,7 +23,7 @@ import { SkillsSection } from "./SkillsSection";
 import { SkillsGraph } from "./SkillsGraph";
 import { CareerHighlights } from "./CareerHighlights";
 
-// ✅ Vite-friendly images:
+// Vite-friendly images:
 // Option A: put images in /src/assets and import like this:
 // import profileImage from "../assets/profile.png";
 // Option B: put images in /public and use string paths like "/images/profile.png"
