@@ -10,7 +10,23 @@
     />
     <meta name="robots" content="noindex, nofollow" />
     <title>Oshi Vanodhya</title>
-    <script type="module" crossorigin src="/assets/index-6jQDEkCl.js"></script>
+
+    <!-- GitHub Pages SPA redirect handler -->
+    <script>
+      (function () {
+        const redirect = sessionStorage.getItem("redirect");
+        if (redirect && redirect !== location.href) {
+          sessionStorage.removeItem("redirect");
+          const url = new URL(redirect);
+          window.history.replaceState(
+            null,
+            null,
+            url.pathname + url.search + url.hash,
+          );
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-D_R27iPJ.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-DXsn413n.css">
   </head>
 
