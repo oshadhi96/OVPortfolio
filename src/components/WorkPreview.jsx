@@ -1,4 +1,11 @@
-import React, { useState, memo, useCallback, useMemo } from "react";
+import React, {
+  useState,
+  memo,
+  useCallback,
+  useMemo,
+  useEffect,
+  useRef,
+} from "react";
 import { motion } from "motion/react";
 import { Badge } from "./ui/badge";
 import { ArrowUpRight, Clock, Lock } from "lucide-react";
@@ -6,12 +13,58 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordModal } from "./PasswordModal";
 import { useAuth } from "../contexts/AuthContext";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { useTrackSectionView, trackWorkCardClick } from "../AnalyticsTracker";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 
-// Theme configuration (JS)
+// ─── GA4 Helpers (self-contained) ─────────────────────────────────────────────
+
+function sendGA4Event(eventName, params = {}) {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", eventName, params);
+    console.log("✅ GA4 event fired:", eventName, params);
+  } else {
+    console.warn("⚠️ gtag not available, event not sent:", eventName);
+  }
+}
+
+// Fires once when 30% of the element scrolls into view
+function useTrackSectionView(eventName) {
+  const ref = useRef(null);
+  const fired = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !fired.current) {
+          fired.current = true;
+          sendGA4Event(eventName, { page_path: window.location.pathname });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [eventName]);
+
+  return ref;
+}
+
+function trackCardClick(cardTitle, cardUrl) {
+  sendGA4Event("selected_work_card_clicked", {
+    card_title: cardTitle,
+    card_url: cardUrl,
+    page_path: window.location.pathname,
+  });
+}
+
+// ─── Theme configuration ──────────────────────────────────────────────────────
+
 const THEMES = {
   purple: {
     bg: "bg-slate-950/80 backdrop-blur-md",
@@ -79,7 +132,8 @@ const THEMES = {
   },
 };
 
-// Projects (JS)
+// ─── Projects ─────────────────────────────────────────────────────────────────
+
 const projects = [
   {
     id: 1,
@@ -138,34 +192,32 @@ const projects = [
   },
 ];
 
-// Shared animation configurations - immutable
+// ─── Animation configs ────────────────────────────────────────────────────────
+
 const HEADER_ANIMATION = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
 };
 
-const CARD_TRANSITION_BASE = {
-  duration: 0.5,
-};
+const CARD_TRANSITION_BASE = { duration: 0.5 };
 
-// Helper function to get guest overview path - pure function
 const getGuestOverviewPath = (projectId) => {
-  if (projectId === "expert-republic") {
+  if (projectId === "expert-republic")
     return "/work/expert-republic-guest-overview";
-  } else if (projectId === "brp-systems") {
+  if (projectId === "brp-systems")
     return "/work/swedish-fitness-guest-overview";
-  }
   return undefined;
 };
 
+// ─── WorkPreview ──────────────────────────────────────────────────────────────
+
 export function WorkPreview() {
-  // Fires "selected_work_section_viewed" once when the section scrolls into view
+  // 👁️ Track when "Selected Work" section comes into view
   const sectionRef = useTrackSectionView("selected_work_section_viewed");
 
   return (
     <section ref={sectionRef} id="work" className="py-12 md:py-24 relative">
-      {/* Background Decor Container - Isolated to prevent sticky issues */}
       <div className="absolute inset-0 overflow-x-hidden pointer-events-none">
         <div className="absolute right-0 bottom-0 w-[600px] h-[600px] bg-violet-900/10 blur-[120px] rounded-full" />
       </div>
@@ -184,9 +236,10 @@ export function WorkPreview() {
               consumer, and sustainability sectors.
             </p>
           </div>
+          {/* 👆 Track "View All Projects" click — desktop */}
           <Link
             to="/work"
-            onClick={() => trackWorkCardClick("View All Projects", "/work")}
+            onClick={() => trackCardClick("View All Projects", "/work")}
             className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white hover:bg-white/5 hover:border-violet-500/30 transition-all duration-300 group"
           >
             <span>View All Projects</span>
@@ -205,10 +258,11 @@ export function WorkPreview() {
           ))}
         </div>
 
+        {/* 👆 Track "View All Projects" click — mobile */}
         <div className="mt-32 text-center md:hidden relative z-20">
           <Link
             to="/work"
-            onClick={() => trackWorkCardClick("View All Projects", "/work")}
+            onClick={() => trackCardClick("View All Projects", "/work")}
             className="flex w-full mt-32 justify-center items-center gap-2 px-6 py-4 rounded-full bg-slate-800 border border-slate-700 text-white font-medium hover:bg-slate-700 transition-colors"
           >
             <span>View All Projects</span>
@@ -220,7 +274,8 @@ export function WorkPreview() {
   );
 }
 
-// Memoized ProjectCard component for better performance
+// ─── ProjectCard ──────────────────────────────────────────────────────────────
+
 const ProjectCard = memo(function ProjectCard({ project, index }) {
   const navigate = useNavigate();
   const { unlockProject, setGuestView } = useAuth();
@@ -228,19 +283,16 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
 
   const theme = THEMES[project.theme] || THEMES.purple;
 
-  // Memoize projectId extraction to prevent recalculation
   const projectId = useMemo(
     () => (project.link ? project.link.replace("/work/", "") : ""),
     [project.link],
   );
 
-  // Determine if this project has a guest overview page (memoized)
   const guestOverviewPath = useMemo(
     () => getGuestOverviewPath(projectId),
     [projectId],
   );
 
-  // Memoize the transition to prevent creating new objects on every render
   const cardTransition = useMemo(
     () => ({ ...CARD_TRANSITION_BASE, delay: index * 0.1 }),
     [index],
@@ -280,7 +332,6 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
     navigate(guestOverviewPath || project.link);
   }, [projectId, project.link, guestOverviewPath, setGuestView, navigate]);
 
-  // Calculate dynamic sticky top position to create the stacking card effect
   const stickyTop = 120 + index * 20;
 
   return (
@@ -296,10 +347,7 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
 
       <div
         className="relative md:sticky top-0 md:top-[var(--sticky-top)]"
-        style={{
-          "--sticky-top": `${stickyTop}px`,
-          zIndex: 10 + index,
-        }}
+        style={{ "--sticky-top": `${stickyTop}px`, zIndex: 10 + index }}
       >
         <motion.div
           key={project.id}
@@ -345,7 +393,6 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
               >
                 {project.headline}
               </p>
-
               <div className="flex flex-wrap gap-3">
                 {project.tags.map((tag) => (
                   <Badge
@@ -377,25 +424,21 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
                 alt={project.title}
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
               />
-
-              {/* Subtle overlay gradient to ensure image blends well */}
               <div
                 className={`absolute inset-0 bg-gradient-to-l ${theme.imageOverlay}`}
               />
-
-              {/* Mobile overlay gradient for text readability if needed */}
               <div
                 className={`md:hidden absolute inset-0 bg-gradient-to-t ${theme.mobileOverlay} opacity-30`}
               />
             </div>
           </div>
 
-          {/* Full Card Link (Accessible) */}
+          {/* Full Card Click Handler */}
           {project.isLocked ? (
             <button
               onClick={(e) => {
-                // Track the card click with GA4
-                trackWorkCardClick(project.title, project.link);
+                // 👆 Track which card was clicked
+                trackCardClick(project.title, project.link);
 
                 const ifsAiPath = project.link.includes("ifs-ai")
                   ? "/work/ifs-ai-guest-overview"
@@ -422,7 +465,7 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
           ) : (
             <Link
               to={project.link}
-              onClick={() => trackWorkCardClick(project.title, project.link)}
+              onClick={() => trackCardClick(project.title, project.link)}
               className="absolute inset-0 z-30 rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               <span className="sr-only">
