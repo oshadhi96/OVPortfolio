@@ -40,7 +40,7 @@ const contentData = [
     summary:
       "workshop on design principles, accessibility, design systems and designing great user interfaces",
     image: visualDesignWorkshopImage,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-a7e738a3649c4869b3a847f9e9f7ac34#2410474b8a3980a4bfd1c45d30aaa680",
+    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#2410474b8a39805d84a3f12d3a9cefbb",
   },
   {
     id: "2",
@@ -64,7 +64,7 @@ const contentData = [
     summary:
       "A practical guide to role of UX designers at IFS and tips to find the career pathway",
     image: careerPanelMar2025Image,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-a7e738a3649c4869b3a847f9e9f7ac34#2410474b8a3980a4bfd1c45d30aaa680",
+    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#2410474b8a39805d84a3f12d3a9cefbb",
   },
   {
     id: "4",
@@ -181,7 +181,7 @@ const contentData = [
     date: "Jul 2023",
     summary: "Sharing advice and judging design submissions",
     image: judgingPanelImage,
-    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de#5d419a5e3858495da3e3a507f6f322d2",
+    link: "https://vanodhya-oshadhi.notion.site/Design-Events-6cd27d3f4de34664bd69ebde6314f7de?pvs=97#5d419a5e3858495da3e3a507f6f322d2",
   },
   {
     id: "14",
