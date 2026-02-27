@@ -380,13 +380,13 @@ export function SpeakingJournalPage() {
             </div>
           </div>
 
-          <a
-            href="/contact"
+          <Link
+            to="/contact"
             className="shiny-cta inline-flex items-center gap-2 group"
           >
             <span>Invite me to Speak</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
         </motion.div>
       </section>
 
