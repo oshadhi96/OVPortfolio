@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordModal } from "./PasswordModal";
 import { useAuth } from "../contexts/AuthContext";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { useTrackSectionView, trackWorkCardClick } from "./AnalyticsTracker";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
@@ -159,8 +160,11 @@ const getGuestOverviewPath = (projectId) => {
 };
 
 export function WorkPreview() {
+  // Fires "selected_work_section_viewed" once when the section scrolls into view
+  const sectionRef = useTrackSectionView("selected_work_section_viewed");
+
   return (
-    <section id="work" className="py-12 md:py-24 relative">
+    <section ref={sectionRef} id="work" className="py-12 md:py-24 relative">
       {/* Background Decor Container - Isolated to prevent sticky issues */}
       <div className="absolute inset-0 overflow-x-hidden pointer-events-none">
         <div className="absolute right-0 bottom-0 w-[600px] h-[600px] bg-violet-900/10 blur-[120px] rounded-full" />
@@ -182,6 +186,7 @@ export function WorkPreview() {
           </div>
           <Link
             to="/work"
+            onClick={() => trackWorkCardClick("View All Projects", "/work")}
             className="hidden md:flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 text-white hover:bg-white/5 hover:border-violet-500/30 transition-all duration-300 group"
           >
             <span>View All Projects</span>
@@ -203,6 +208,7 @@ export function WorkPreview() {
         <div className="mt-32 text-center md:hidden relative z-20">
           <Link
             to="/work"
+            onClick={() => trackWorkCardClick("View All Projects", "/work")}
             className="flex w-full mt-32 justify-center items-center gap-2 px-6 py-4 rounded-full bg-slate-800 border border-slate-700 text-white font-medium hover:bg-slate-700 transition-colors"
           >
             <span>View All Projects</span>
@@ -388,6 +394,9 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
           {project.isLocked ? (
             <button
               onClick={(e) => {
+                // Track the card click with GA4
+                trackWorkCardClick(project.title, project.link);
+
                 const ifsAiPath = project.link.includes("ifs-ai")
                   ? "/work/ifs-ai-guest-overview"
                   : null;
@@ -413,6 +422,7 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
           ) : (
             <Link
               to={project.link}
+              onClick={() => trackWorkCardClick(project.title, project.link)}
               className="absolute inset-0 z-30 rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
             >
               <span className="sr-only">
