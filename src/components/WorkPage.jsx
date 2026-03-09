@@ -13,19 +13,18 @@ import dashboardImage from "figma:asset/9d47c43c7096aca688d62cf6b64b35d845463cc2
 import illustrationsImage from "figma:asset/ec123535667fb7c7348e05688cbc273c4bbe3c41.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
+import aiVideo from "../assets/AIvideo.mp4";
 
 // ─── GA4 Helpers ─────────────────────────────────────────────────────────────
 
-// Converts card title to a clean GA4-safe event name slug
-// e.g. "IFS.ai Developer Portal" → "click_IFS_ai_Developer_Portal"
 function toEventSlug(title) {
   return (
     "click_" +
     title
-      .replace(/[^a-zA-Z0-9 ]/g, "") // remove special chars
+      .replace(/[^a-zA-Z0-9 ]/g, "")
       .trim()
-      .replace(/\s+/g, "_") // spaces to underscores
-      .slice(0, 35) // GA4 event name max 40 chars
+      .replace(/\s+/g, "_")
+      .slice(0, 35)
   );
 }
 
@@ -60,8 +59,7 @@ const featuredProjects = [
       "Accelerating machine learning and LLM use case innovation with a centralized portal for developers.",
     tags: ["AI", "B2B", "Featured"],
     readTime: "Password Protected",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWNoaW5lJTIwbGVhcm5pbmclMjBkYXNoYm9hcmR8ZW58MXx8fHwxNzM0ODA5NjU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    video: aiVideo,
     link: "/work/ifs-ai",
     isLocked: true,
     type: "featured",
@@ -148,7 +146,7 @@ const featuredProjects = [
       "Design Leadership - Mentorship, workshops, and systems that raised UX maturity and grew the team",
     company: "All",
     headline:
-      "The real bottleneck wasn’t process in design agencies nor big tech — it was shared decision-making.",
+      "The real bottleneck wasn't process in design agencies nor big tech — it was shared decision-making.",
     tags: ["Leadership", "Strategy", "Team Building"],
     readTime: "Password Protected",
     image:
@@ -169,9 +167,9 @@ const featuredProjects = [
     type: "featured",
   },
 ];
+
 const allProjects = [...featuredProjects];
 
-// Define specific filter tags
 const filterTags = [
   "All",
   "Featured",
@@ -184,7 +182,6 @@ const filterTags = [
 export function WorkPage() {
   const [selectedTag, setSelectedTag] = useState("Featured");
 
-  // Filter logic
   const getFilteredProjects = () => {
     if (selectedTag === "All") {
       return { featured: featuredProjects };
@@ -290,7 +287,6 @@ function ProjectCard({ project, index }) {
   const isExternalLink = !!project.link && project.link.startsWith("http");
   const hasLink = !!project.link;
 
-  // Extract projectId from internal route
   const projectId = project.link ? project.link.replace("/work/", "") : "";
 
   const guestOverviewPath =
@@ -357,14 +353,26 @@ function ProjectCard({ project, index }) {
         }`}
         data-project-card
       >
-        {/* Card Image */}
+        {/* Card Image / Video */}
         <div className="relative aspect-[16/9] overflow-hidden">
           <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
-          <ImageWithFallback
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-          />
+
+          {project.video ? (
+            <video
+              src={project.video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          ) : (
+            <ImageWithFallback
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+            />
+          )}
 
           {/* Overlay Gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/40 to-transparent opacity-90" />
@@ -429,7 +437,6 @@ function ProjectCard({ project, index }) {
         {/* Full Card Link (Accessible) */}
         {hasLink &&
           (isExternalLink ? (
-            // 🌐 External Notion links — track both events
             <a
               href={project.link}
               target="_blank"
@@ -445,7 +452,6 @@ function ProjectCard({ project, index }) {
               </span>
             </a>
           ) : project.isLocked ? (
-            // 🔒 Locked internal cards
             <button
               onClick={(e) => {
                 trackCardClick(project.title, project.link);
@@ -473,7 +479,6 @@ function ProjectCard({ project, index }) {
               aria-label={`Unlock ${project.title}`}
             />
           ) : (
-            // 🔗 Unlocked internal cards
             <Link
               to={project.link}
               onClick={() => trackCardClick(project.title, project.link)}

@@ -17,6 +17,7 @@ import ReactGA from "react-ga4";
 import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddfd4d1e.png";
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
+import aiVideo from "../assets/AIvideo.mp4";
 
 // ─── GA4 Helpers ──────────────────────────────────────────────────────────────
 
@@ -52,8 +53,6 @@ function isExternalLink(url) {
   return url && (url.startsWith("http://") || url.startsWith("https://"));
 }
 
-// Converts card title to a clean GA4-safe event name slug
-// e.g. "IFS.ai Developer Portal" → "click_IFS_ai_Developer_Portal"
 function toEventSlug(title) {
   return (
     "click_" +
@@ -165,8 +164,7 @@ const projects = [
       "Accelerating machine learning and LLM use case innovation with a centralized portal for developers.",
     tags: ["Enterprise UX", "AI", "B2B"],
     readTime: "Password Protected",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWNoaW5lJTIwbGVhcm5pbmclMjBkYXNoYm9hcmR8ZW58MXx8fHwxNzM0ODA5NjU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    video: aiVideo,
     link: "/work/ifs-ai",
     isLocked: true,
     theme: "purple",
@@ -235,7 +233,6 @@ const getGuestOverviewPath = (projectId) => {
 // ─── WorkPreview ──────────────────────────────────────────────────────────────
 
 export function WorkPreview() {
-  // 👁️ Track when "Selected Work" section comes into view
   const sectionRef = useTrackSectionView("selected_work_section_viewed");
 
   return (
@@ -258,7 +255,6 @@ export function WorkPreview() {
               consumer, and sustainability sectors.
             </p>
           </div>
-          {/* 👆 Track "View All Projects" click — desktop */}
           <Link
             to="/work"
             onClick={() => trackCardClick("View All Projects", "/work")}
@@ -280,7 +276,6 @@ export function WorkPreview() {
           ))}
         </div>
 
-        {/* 👆 Track "View All Projects" click — mobile */}
         <div className="mt-32 text-center md:hidden relative z-20">
           <Link
             to="/work"
@@ -438,14 +433,25 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
             </div>
           </div>
 
-          {/* Card Image - Right Side */}
+          {/* Card Image / Video - Right Side */}
           <div className="relative h-64 md:h-full min-h-[300px] order-1 md:order-2 p-4 md:p-10">
-            <div className="relative w-full h-full rounded-2xl overflow-x-hidden shadow-sm">
-              <ImageWithFallback
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-              />
+            <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-sm">
+              {project.video ? (
+                <video
+                  src={project.video}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+              ) : (
+                <ImageWithFallback
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+              )}
               <div
                 className={`absolute inset-0 bg-gradient-to-l ${theme.imageOverlay}`}
               />
@@ -484,7 +490,6 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
               aria-label={`Unlock ${project.title}`}
             />
           ) : isExternalLink(project.link) ? (
-            // 🌐 External link (e.g. Notion) — opens in new tab + tracks separately
             <a
               href={project.link}
               target="_blank"
@@ -500,7 +505,6 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
               </span>
             </a>
           ) : (
-            // 🔗 Internal link
             <Link
               to={project.link}
               onClick={() => trackCardClick(project.title, project.link)}
