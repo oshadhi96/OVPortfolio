@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { PasswordModal } from "../PasswordModal";
-import { PlaceholderBeforeAfter } from "./AssetPlaceholders";
+import aiVideo from "../../assets/AIvideo.mp4";
 
 export function IfsAiGuestOverview() {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ export function IfsAiGuestOverview() {
     },
   ];
 
-  // ✅ JS version: removed TypeScript type annotation (: string)
   const handleUnlock = async (password) => {
     const success = await unlockProject(
       projectId,
@@ -98,11 +97,15 @@ export function IfsAiGuestOverview() {
           ))}
         </ul>
 
-        {/* Hero Image */}
+        {/* Hero Video */}
         <div className="relative rounded-3xl overflow-hidden aspect-video border border-white/10 shadow-2xl shadow-violet-900/20">
-          <PlaceholderBeforeAfter
-            caption="Image generalized due to confidentiality"
-            className="w-full h-full border-0 rounded-none bg-slate-900"
+          <video
+            src={aiVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-80 pointer-events-none" />
           <div className="absolute bottom-8 left-8 right-8 text-center md:text-left">
@@ -129,7 +132,7 @@ export function IfsAiGuestOverview() {
               </p>
               <p>
                 However, it was initially developed without UX support. Landing
-                pages looked empty, terminology like “EDA” was confusing (67% of
+                pages looked empty, terminology like "EDA" was confusing (67% of
                 users couldn&apos;t explain it), and help was buried.
               </p>
               <p>
@@ -208,7 +211,7 @@ export function IfsAiGuestOverview() {
                 <p className="text-sm text-slate-400">
                   The post-release survey scored{" "}
                   <strong className="text-violet-400">4.11 / 5</strong>. One SE
-                  shared: “The overall layout design is user friendly.”
+                  shared: "The overall layout design is user friendly."
                 </p>
               </div>
               <div className="space-y-3">
@@ -302,7 +305,6 @@ export function IfsAiGuestOverview() {
         onUnlock={handleUnlock}
         onViewAsGuest={() => {
           setShowPasswordModal(false);
-          // Already on guest view, so just close modal
         }}
         projectTitle={projectTitle}
       />
