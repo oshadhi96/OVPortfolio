@@ -51,8 +51,10 @@ export function ExpertRepublicGuestOverview() {
     );
     if (success) {
       setShowPasswordModal(false);
-      // Navigate to full case study
-      navigate("/work/expert-republic");
+      window.open(
+        "https://vanodhya-oshadhi.notion.site/Increasing-conversion-rates-and-reducing-support-costs-to-optimize-businesses-during-COVID-2f431056cf974f6b8a2dd6f37ce9d41f?source=copy_link",
+        "_blank",
+      );
     }
     return success;
   };
@@ -294,9 +296,6 @@ export function ExpertRepublicGuestOverview() {
             </div>
           </div>
         </section>
-
-        {/* Lottie Animation - Removed due to missing dependency */}
-        {/* <section className="flex justify-center items-center"> ... </section> */}
 
         {/* UNLOCK PROMPT - Guest View End */}
         <section className="relative">

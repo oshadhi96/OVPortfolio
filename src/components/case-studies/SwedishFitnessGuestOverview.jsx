@@ -53,8 +53,10 @@ export function SwedishFitnessGuestOverview() {
     );
     if (success) {
       setShowPasswordModal(false);
-      // Navigate to full case study
-      navigate("/work/brp-systems");
+      window.open(
+        "https://www.notion.so/vanodhya-oshadhi/Defining-the-future-fitness-experience-for-one-of-Sweden-s-largest-B2B-enterprise-software-solution--653a1b12d8fd46738e821381c78e08a8",
+        "_blank",
+      );
     }
     return success;
   };

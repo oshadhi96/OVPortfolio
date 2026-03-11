@@ -51,7 +51,7 @@ export function IfsSustainabilityGuestOverview() {
     if (success) {
       setShowPasswordModal(false);
       window.open(
-        "https://www.figma.com/proto/xaFwsR9tCrMeXkCCrT9dlj/Portfolio---Latest?node-id=2484-4881&starting-point-node-id=2484%3A4881&t=IpMww21Iz0SsaTuC-1",
+        "https://www.figma.com/proto/xaFwsR9tCrMeXkCCrT9dlj/Portfolio---Latest?node-id=2484-4881&t=vAucQBEQFeC4tcCi-1&scaling=contain&content-scaling=fixed&page-id=2447%3A20&starting-point-node-id=2449%3A90",
         "_blank",
       );
     }
