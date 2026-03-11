@@ -14,6 +14,7 @@ import illustrationsImage from "figma:asset/ec123535667fb7c7348e05688cbc273c4bbe
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 import aiVideo from "../assets/AIvideo.mp4";
+import aiVideo from "../assets/Sustainability.mp4";
 
 // ─── GA4 Helpers ─────────────────────────────────────────────────────────────
 
@@ -79,7 +80,7 @@ const featuredProjects = [
       "Featured",
     ],
     readTime: "Password Protected",
-    image: sustainabilityImage,
+    video: aiVideo,
     link: "/work/ifs-sustainability",
     isLocked: true,
     type: "featured",

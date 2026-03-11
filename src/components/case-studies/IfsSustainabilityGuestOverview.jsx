@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { PasswordModal } from "../PasswordModal";
-import sustainabilityImage from "figma:asset/1e3ba89341ab5f78a25db311d4d030ffce0ee1ad.png";
+import sustainability from "../../assets/Sustainability.mp4";
 
 export function IfsSustainabilityGuestOverview() {
   const navigate = useNavigate();
@@ -96,14 +96,17 @@ export function IfsSustainabilityGuestOverview() {
           ))}
         </div>
 
-        {/* Hero Image */}
+        {/* Hero Video */}
         <div className="relative rounded-3xl overflow-hidden aspect-video border border-white/10 shadow-2xl shadow-teal-900/20">
-          <img
-            src={sustainabilityImage}
-            alt="IFS Sustainability Management"
+          <video
+            src={sustainability}
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-transparent to-transparent opacity-60 pointer-events-none" />
         </div>
       </header>
 
