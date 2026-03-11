@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { Badge } from "./ui/badge";
 import { ArrowUpRight, Clock, Lock } from "lucide-react";
@@ -14,7 +14,7 @@ import illustrationsImage from "figma:asset/ec123535667fb7c7348e05688cbc273c4bbe
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertrepublicimage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 import aiVideo from "../assets/AIvideo.mp4";
-import sustainability from "../assets/Sustainability.mp4";
+import sustainabilityVideo from "../assets/Sustainability.mp4";
 
 // ─── GA4 Helpers ─────────────────────────────────────────────────────────────
 
@@ -49,6 +49,44 @@ function trackExternalLinkClick(cardTitle, cardUrl) {
   console.log("✅ GA4 event fired:", eventName, { cardUrl });
 }
 
+// ─── AutoPlayVideo ────────────────────────────────────────────────────────────
+// Uses IntersectionObserver so each video plays independently when visible,
+// which avoids browsers blocking simultaneous autoplay of multiple videos.
+
+function AutoPlayVideo({ src, className }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      className={className}
+    />
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 const featuredProjects = [
@@ -80,7 +118,7 @@ const featuredProjects = [
       "Featured",
     ],
     readTime: "Password Protected",
-    video: sustainability,
+    video: sustainabilityVideo,
     link: "/work/ifs-sustainability",
     isLocked: true,
     type: "featured",
@@ -359,12 +397,8 @@ function ProjectCard({ project, index }) {
           <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors duration-500 z-10" />
 
           {project.video ? (
-            <video
+            <AutoPlayVideo
               src={project.video}
-              autoPlay
-              loop
-              muted
-              playsInline
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
             />
           ) : (
