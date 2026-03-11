@@ -18,6 +18,7 @@ import sustainabilityImage from "figma:asset/524616a1f7f63515c08aff99d15a6fa2ddf
 import swedishFitnessOverview from "figma:asset/4b51bd1606c56d09a50e4a0d2b3123a5ff5e3e9f.png";
 import expertRepublicImage from "figma:asset/4fd14448f0df2328217b29896eacaabceff1559a.png";
 import aiVideo from "../assets/AIvideo.mp4";
+import sustainability from "../../assets/Sustainability.mp4";
 
 // ─── GA4 Helpers ──────────────────────────────────────────────────────────────
 
@@ -191,7 +192,7 @@ const projects = [
       "Helped shape a new sustainability management solution that reached 6M EUR TCV and 1M EUR ARR within 11 months of release.",
     tags: ["Enterprise UX", "Sustainability", "Leadership", "B2B", "SaaS"],
     readTime: "Password Protected",
-    image: sustainabilityImage,
+    video: sustainability,
     link: "/work/ifs-sustainability",
     isLocked: true,
     theme: "emerald",
