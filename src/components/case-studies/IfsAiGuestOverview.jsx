@@ -22,6 +22,9 @@ export function IfsAiGuestOverview() {
   const projectTitle = "IFS.ai ML Portal";
   const projectUrl = "/work/ifs-ai";
 
+  const figmaUrl =
+    "https://www.figma.com/proto/xaFwsR9tCrMeXkCCrT9dlj/Portfolio---Latest?node-id=2484-6055&t=HpUhEfpyyIEZlCt3-1&scaling=contain&content-scaling=fixed&page-id=2447%3A20&starting-point-node-id=2449%3A90";
+
   const metrics = [
     {
       value: "1.77mo",
@@ -51,7 +54,7 @@ export function IfsAiGuestOverview() {
 
     if (success) {
       setShowPasswordModal(false);
-      navigate(projectUrl);
+      window.open(figmaUrl, "_blank", "noopener,noreferrer");
     }
 
     return success;
