@@ -22,7 +22,6 @@ import sustainability from "../assets/Sustainability.mp4";
 
 // ─── GA4 Helpers ──────────────────────────────────────────────────────────────
 
-// Fires once when 30% of the element scrolls into view
 function useTrackSectionView(eventName) {
   const ref = useRef(null);
   const fired = useRef(false);
@@ -391,12 +390,8 @@ const ProjectCard = memo(function ProjectCard({ project, index }) {
               <div
                 className={`flex items-center gap-1.5 text-sm font-medium ${theme.meta}`}
               >
-                {project.isLocked ? (
-                  <Lock className="w-3.5 h-3.5" />
-                ) : (
-                  <Clock className="w-3.5 h-3.5" />
-                )}
-                {project.isLocked ? "Password Protected" : project.readTime}
+                <Clock className="w-3.5 h-3.5" />
+                {project.readTime}
               </div>
             </div>
 

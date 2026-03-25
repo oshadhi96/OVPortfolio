@@ -50,8 +50,6 @@ function trackExternalLinkClick(cardTitle, cardUrl) {
 }
 
 // ─── AutoPlayVideo ────────────────────────────────────────────────────────────
-// Uses IntersectionObserver so each video plays independently when visible,
-// which avoids browsers blocking simultaneous autoplay of multiple videos.
 
 function AutoPlayVideo({ src, className }) {
   const videoRef = useRef(null);
@@ -421,12 +419,8 @@ function ProjectCard({ project, index }) {
               {project.company}
             </Badge>
             <div className="flex items-center gap-1.5 px-3 py-1 bg-slate-950/60 backdrop-blur-md rounded-full border border-white/10 text-xs font-medium text-slate-300">
-              {project.isLocked ? (
-                <Lock className="w-3 h-3" />
-              ) : (
-                <Clock className="w-3 h-3" />
-              )}
-              {project.isLocked ? "Password protected" : project.readTime}
+              <Clock className="w-3 h-3" />
+              {project.readTime}
             </div>
           </div>
         </div>
