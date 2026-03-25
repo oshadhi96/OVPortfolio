@@ -97,7 +97,7 @@ const featuredProjects = [
     headline:
       "Accelerating machine learning and LLM use case innovation with a centralized portal for developers.",
     tags: ["AI", "B2B", "Featured"],
-    readTime: "Password Protected",
+    readTime: "5 min read",
     video: aiVideo,
     link: "/work/ifs-ai",
     isLocked: true,
@@ -117,7 +117,7 @@ const featuredProjects = [
       "SaaS",
       "Featured",
     ],
-    readTime: "Password Protected",
+    readTime: "4 min read",
     video: sustainabilityVideo,
     link: "/work/ifs-sustainability",
     isLocked: true,
@@ -131,7 +131,7 @@ const featuredProjects = [
     headline:
       "Connecting users with industry experts for 1-on-1 video consultations.",
     tags: ["Consumer UX", "Marketplace", "Mobile", "Featured", "Leadership"],
-    readTime: "Password Protected",
+    readTime: "3 min read",
     image: expertrepublicimage,
     link: "/work/expert-republic",
     isLocked: true,
@@ -144,7 +144,7 @@ const featuredProjects = [
     company: "Rootcode",
     headline: "Modernizing legacy ERP software for fitness industry.",
     tags: ["Enterprise UX", "B2B", "Systems", "Featured", "Leadership"],
-    readTime: "Password Protected",
+    readTime: "4 min read",
     image: swedishFitnessOverview,
     link: "/work/brp-systems",
     isLocked: true,
@@ -187,7 +187,7 @@ const featuredProjects = [
     headline:
       "The real bottleneck wasn't process in design agencies nor big tech — it was shared decision-making.",
     tags: ["Leadership", "Strategy", "Team Building"],
-    readTime: "Password Protected",
+    readTime: "5 min read",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0ZWFtJTIwY29sbGFib3JhdGlvbiUyMG9mZmljZXxlbnwxfHx8fDE3MzQ4MDk3MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
     link: "/work/leadership",
