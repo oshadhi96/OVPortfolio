@@ -164,7 +164,7 @@ const projects = [
     headline:
       "Accelerating machine learning and LLM use case innovation with a centralized portal for developers.",
     tags: ["Enterprise UX", "AI", "B2B"],
-    readTime: "Password Protected",
+    readTime: "5 min read",
     video: aiVideo,
     link: "/work/ifs-ai",
     isLocked: true,
@@ -177,7 +177,7 @@ const projects = [
     company: "Sweden company",
     headline: "Modernizing legacy ERP software for fitness industry.",
     tags: ["SaaS", "B2B", "Mobile", "Web"],
-    readTime: "Password Protected",
+    readTime: "4 min read",
     image: swedishFitnessOverview,
     link: "/work/brp-systems",
     isLocked: true,
@@ -191,7 +191,7 @@ const projects = [
     headline:
       "Helped shape a new sustainability management solution that reached 6M EUR TCV and 1M EUR ARR within 11 months of release.",
     tags: ["Enterprise UX", "Sustainability", "Leadership", "B2B", "SaaS"],
-    readTime: "Password Protected",
+    readTime: "4 min read",
     video: sustainability,
     link: "/work/ifs-sustainability",
     isLocked: true,
@@ -205,7 +205,7 @@ const projects = [
     headline:
       "Connecting users with industry experts for 1-on-1 video consultations.",
     tags: ["Consumer UX", "Marketplace", "Mobile"],
-    readTime: "Password Protected",
+    readTime: "3 min read",
     image: expertRepublicImage,
     link: "/work/expert-republic",
     isLocked: true,
